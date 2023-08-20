@@ -107,7 +107,7 @@ class TaskManagerView(Gtk.ScrolledWindow):
             return processes
 
         def update_processes(processes: list, *_args):
-            if len(processes) > 0:
+            if processes is not None and len(processes) > 0:
                 for process in processes:
                     self.liststore_processes.append([
                         process.get("pid"),

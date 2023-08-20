@@ -1,0 +1,60 @@
+using Gtk 4.0;
+
+template DetailsExternalFonts : .AdwBin {
+  Box {
+    orientation: vertical;
+
+    .AdwPreferencesPage {
+      .AdwPreferencesGroup group_fonts {
+        description: _("Fonts can improve the compatibility of Windows software.");
+
+        ListBox list_fonts {
+          selection-mode: none;
+
+          styles [
+            "boxed-list",
+          ]
+        }
+
+        .AdwPreferencesRow bottom_bar {
+          activatable: false;
+          focusable: false;
+
+          Box {
+            Button install_fonts {
+              hexpand: true;
+              Box {
+                halign: center;
+                Image {
+                  icon-name: "folder-download-symbolic";
+                }
+
+                Separator {
+                  styles [
+                    "spacer"
+                  ]
+                }
+
+                Label {
+                  label: _("Install Fonts…");
+                }
+              }
+
+              styles [
+                "flat"
+              ]
+            }
+
+            styles [
+              "linked"
+            ]
+          }
+
+          styles [
+            "bottom-bar"
+          ]
+        }
+      }
+    }
+  }
+}

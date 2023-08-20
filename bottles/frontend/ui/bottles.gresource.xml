@@ -21,9 +21,11 @@
         <file>library-entry.ui</file>
         <file>local-resource-entry.ui</file>
         <file>exclusion-pattern-entry.ui</file>
+        <file>external-font-entry.ui</file>
         <file>details.ui</file>
         <file>details-bottle.ui</file>
         <file>details-dependencies.ui</file>
+        <file>details-externalfonts.ui</file>
         <file>details-installers.ui</file>
         <file>details-preferences.ui</file>
         <file>details-versioning.ui</file>

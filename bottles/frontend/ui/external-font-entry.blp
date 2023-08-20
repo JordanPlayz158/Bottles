@@ -1,0 +1,38 @@
+using Gtk 4.0;
+
+Popover pop_actions {
+  styles [
+    "menu",
+  ]
+
+  Box {
+    margin-top: 6;
+    margin-bottom: 6;
+    margin-start: 6;
+    margin-end: 6;
+    orientation: vertical;
+
+    .GtkModelButton btn_remove {
+      text: _("Uninstall");
+    }
+  }
+}
+
+template ExternalFontEntry : .AdwActionRow {
+  title: _("External Font name");
+  subtitle: _("External Font filename");
+
+  Box box_actions {
+    spacing: 6;
+
+    MenuButton {
+      valign: center;
+      popover: pop_actions;
+      icon-name: "view-more-symbolic";
+
+      styles [
+        "flat",
+      ]
+    }
+  }
+}

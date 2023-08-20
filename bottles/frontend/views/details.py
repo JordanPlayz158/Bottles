@@ -27,6 +27,7 @@ from bottles.backend.models.config import BottleConfig
 from bottles.backend.utils.threading import RunAsync
 from bottles.frontend.utils.gtk import GtkUtils
 from bottles.frontend.views.bottle_details import BottleView
+from bottles.frontend.views.bottle_external_fonts import ExternalFontsView
 from bottles.frontend.views.bottle_installers import InstallersView
 from bottles.frontend.views.bottle_dependencies import DependenciesView
 from bottles.frontend.views.bottle_preferences import PreferencesView
@@ -78,6 +79,7 @@ class DetailsView(Adw.Bin):
         self.view_bottle = BottleView(self, config)
         self.view_installers = InstallersView(self, config)
         self.view_dependencies = DependenciesView(self, config)
+        self.view_externalfonts = ExternalFontsView(self, config)
         self.view_preferences = PreferencesView(self, config)
         self.view_versioning = VersioningView(self, config)
         self.view_taskmanager = TaskManagerView(self, config)
@@ -121,6 +123,8 @@ class DetailsView(Adw.Bin):
         if page == "dependencies":
             self.set_actions(self.view_dependencies.actions)
             self.view_dependencies.update(config=self.config)
+        elif page == "externalfonts":
+            self.view_externalfonts.update(config=self.config)
         elif page == "versioning":
             self.set_actions(self.view_versioning.actions)
         elif page == "installers":
@@ -143,6 +147,10 @@ class DetailsView(Adw.Bin):
             },
             "dependencies": {
                 "title": _("Dependencies"),
+                "description": "",
+            },
+            "externalfonts": {
+                "title": _("External Fonts"),
                 "description": "",
             },
             "versioning": {
@@ -168,6 +176,7 @@ class DetailsView(Adw.Bin):
 
             self.stack_bottle.add_named(self.view_preferences, "preferences")
             self.stack_bottle.add_named(self.view_dependencies, "dependencies")
+            self.stack_bottle.add_named(self.view_externalfonts, "externalfonts")
             self.stack_bottle.add_named(self.view_versioning, "versioning")
             self.stack_bottle.add_named(self.view_installers, "installers")
             self.stack_bottle.add_named(self.view_taskmanager, "taskmanager")
@@ -200,6 +209,7 @@ class DetailsView(Adw.Bin):
         self.view_bottle.set_config(config=config)
         self.view_preferences.set_config(config=config)
         self.view_taskmanager.set_config(config=config)
+        self.view_externalfonts.update(config=config)
         self.view_installers.update(config=config)
         self.view_versioning.update(config=config)
 

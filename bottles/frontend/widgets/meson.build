@@ -5,6 +5,7 @@ bottles_sources = [
   '__init__.py',
   'dependency.py',
   'executable.py',
+  'external_font.py',
   'importer.py',
   'installer.py',
   'program.py',

@@ -138,6 +138,7 @@ class BottleConfig(DictCompatMixIn):
     Installed_Dependencies: List[str] = field(default_factory=list)
     DLL_Overrides: dict = field(default_factory=dict)
     External_Programs: Dict[str, dict] = field(default_factory=dict)
+    External_Fonts: List[str] = field(default_factory=list)
     Uninstallers: dict = field(default_factory=dict)
     session_arguments: str = ""
     run_in_terminal: bool = False
@@ -180,7 +181,7 @@ class BottleConfig(DictCompatMixIn):
         f = None
         try:
             if not os.path.exists(file):
-                raise FileNotFoundError("Config file not exists")
+                raise FileNotFoundError(f"Config file not exists: {file}")
 
             f = file if isinstance(file, IOBase) else open(file, mode=mode)
 

@@ -31,6 +31,13 @@ def add_yaml_filters(dialog):
 
     dialog.add_filter(filter)
 
+def add_font_filters(dialog):
+    filter = Gtk.FileFilter()
+    filter.set_name(_("Supported Fonts"))
+    filter.add_mime_type("font/ttf")
+
+    dialog.add_filter(filter)
+
 def add_all_filters(dialog):
     filter = Gtk.FileFilter()
     filter.set_name(_("All Files"))
