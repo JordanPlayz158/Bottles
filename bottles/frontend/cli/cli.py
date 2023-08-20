@@ -25,20 +25,12 @@ import sys
 import uuid
 import warnings
 
-import gi
-
-warnings.filterwarnings("ignore")  # suppress GTK warnings
-gi.require_version('Gtk', '4.0')
-
 APP_VERSION = "@APP_VERSION@"
 pkgdatadir = "@pkgdatadir@"
 # noinspection DuplicatedCode
-gresource_path = f"{pkgdatadir}/bottles.gresource"
 sys.path.insert(1, pkgdatadir)
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-
-from gi.repository import Gio
 
 from bottles.frontend.params import APP_ID
 from bottles.backend.globals import Paths
@@ -64,8 +56,6 @@ from bottles.backend.utils.manager import ManagerUtils
 
 # noinspection DuplicatedCode
 class CLI:
-    settings = Gio.Settings.new(APP_ID)
-
     def __init__(self):
         # self.__clear()
 
@@ -227,7 +217,7 @@ class CLI:
 
     # region LIST
     def list_bottles(self, c_filter=None):
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.check_bottles()
         bottles = mng.local_bottles
 
@@ -245,7 +235,7 @@ class CLI:
                 sys.stdout.write(f"- {b}\n")
 
     def list_components(self, c_filter=None):
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.check_runners(False)
         mng.check_dxvk(False)
         mng.check_vkd3d(False)
@@ -278,7 +268,7 @@ class CLI:
 
     # region PROGRAMS
     def list_programs(self):
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.check_bottles()
         _bottle = self.args.bottle
 
@@ -305,7 +295,7 @@ class CLI:
     def launch_tool(self):
         _bottle = self.args.bottle
         _tool = self.args.tool
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.check_bottles()
 
         if _bottle not in mng.local_bottles:
@@ -343,7 +333,7 @@ class CLI:
         _executable = ""
         _folder = ""
         _uuid = str(uuid.uuid4())
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.check_bottles()
 
         if _bottle not in mng.local_bottles:
@@ -391,7 +381,7 @@ class CLI:
         _value = self.args.value
         _data = self.args.data
         _key_type = self.args.key_type
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.check_bottles()
 
         if _bottle not in mng.local_bottles:
@@ -423,7 +413,7 @@ class CLI:
         _vkd3d = self.args.vkd3d
         _nvapi = self.args.nvapi
         _latencyflex = self.args.latencyflex
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.check_bottles()
 
         valid_parameters = BottleConfig().Parameters.keys()
@@ -517,7 +507,7 @@ class CLI:
         _vkd3d = self.args.vkd3d
         _nvapi = self.args.nvapi
         _latencyflex = self.args.latencyflex
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.checks()
 
         mng.create_bottle(
@@ -543,7 +533,7 @@ class CLI:
         _executable = self.args.executable
         _cwd = None
         _script = None
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.checks()
 
         if _bottle not in mng.local_bottles:
@@ -588,18 +578,19 @@ class CLI:
             if program.get("virtual_desktop") != _virt_desktop:
                 _virt_desktop = program.get("virtual_desktop")
 
-        WineExecutor(
-            bottle,
-            exec_path=_executable,
-            args=_args,
-            cwd=_cwd,
-            post_script=_script,
-            override_dxvk=_dxvk,
-            override_vkd3d=_vkd3d,
-            override_nvapi=_nvapi,
-            override_fsr=_fsr,
-            override_virt_desktop=_virt_desktop
-        ).run_cli()
+        if _executable is not None:
+            WineExecutor(
+                bottle,
+                exec_path=_executable,
+                args=_args,
+                cwd=_cwd,
+                post_script=_script,
+                override_dxvk=_dxvk,
+                override_vkd3d=_vkd3d,
+                override_nvapi=_nvapi,
+                override_fsr=_fsr,
+                override_virt_desktop=_virt_desktop
+            ).run_cli()
 
     # endregion
 
@@ -607,7 +598,7 @@ class CLI:
     def run_shell(self):
         _bottle = self.args.bottle
         _input = self.args.input
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.checks()
 
         if _bottle not in mng.local_bottles:
@@ -626,7 +617,7 @@ class CLI:
     # region STANDALONE
     def generate_standalone(self):
         _bottle = self.args.bottle
-        mng = Manager(g_settings=self.settings, is_cli=True)
+        mng = Manager(g_settings=None, is_cli=True)
         mng.checks()
 
         if _bottle not in mng.local_bottles:
